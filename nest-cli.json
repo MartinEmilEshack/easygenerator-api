@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/easygenerator-api/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/easygenerator-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/easygenerator-api",
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "easygenerator-api": {
+      "type": "application",
+      "root": "apps/easygenerator-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/easygenerator-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/easygenerator-api/tsconfig.app.json"
+      }
+    }
   }
 }
