@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+yarn.lock
+
+.gitignore
+*.md
+.prettierrc
+docker-compose.yml
+Dockerfile
+eslint.config.mjs
+build
+
+.env*

@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+   api-gateway:
+      image: easygen/api-gateway
+      container_name: api-gateway
+      build:
+         context: .
+         dockerfile: Dockerfile
+         args:
+            - SERVICE_NAME=api-gateway
+      ports:
+         - 3000:3000
+
+   auth:
+      image: easygen/auth
+      container_name: auth
+      build:
+         context: .
+         dockerfile: Dockerfile
+         args:
+            - SERVICE_NAME=auth
