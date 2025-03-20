@@ -17,6 +17,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@easygen/proto": [
+        "libs/proto"
+      ],
+      "@easygen/proto/*": [
+        "libs/proto/schemes/*"
+      ]
+    }
   }
 }

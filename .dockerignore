@@ -12,3 +12,5 @@ eslint.config.mjs
 build
 
 .env*
+
+libs/proto/schemes
