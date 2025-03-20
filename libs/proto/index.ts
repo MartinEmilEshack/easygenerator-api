@@ -1,10 +1,11 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import { ProtoPackage } from './@types/packages';
 
 export const getProtoPaths = (
   appPath: string,
   isBuilt: boolean = false,
-  ...packageNames: string[]
+  ...packageNames: ProtoPackage[]
 ) => {
   const mainPackages: string[] = [];
 
@@ -22,3 +23,5 @@ export const getProtoPaths = (
 
   return mainPackages;
 };
+
+export * from './@types/packages';

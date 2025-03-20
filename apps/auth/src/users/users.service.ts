@@ -7,7 +7,7 @@ export class UsersService {
 
   create(createUserDto: CreateUserDto) {
     const user: User = {
-      id: 'aaaa',
+      id: Date.now().toString(),
       email: createUserDto.email,
       password: createUserDto.password,
       username: createUserDto.username,

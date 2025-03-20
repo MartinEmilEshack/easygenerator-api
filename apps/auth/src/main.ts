@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AuthModule } from './auth.module';
+import { GrpcMessagesInterceptor } from '@easygen/logging';
+import { getProtoPaths, ProtoPackage } from '@easygen/proto';
 import { ConsoleLogger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { getProtoPaths } from '@easygen/proto';
+import { AuthModule } from './auth.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -10,8 +11,8 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        protoPath: getProtoPaths(__dirname, false, 'auth'),
-        package: 'auth',
+        protoPath: getProtoPaths(__dirname, false, ProtoPackage.AUTH),
+        package: ProtoPackage.AUTH,
       },
       logger: new ConsoleLogger({
         colors: true,
@@ -20,6 +21,8 @@ async function bootstrap() {
       }),
     },
   );
+
+  app.useGlobalInterceptors(new GrpcMessagesInterceptor());
 
   await app.listen();
 }

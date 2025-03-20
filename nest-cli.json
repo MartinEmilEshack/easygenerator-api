@@ -29,6 +29,15 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
+    "logging": {
+      "type": "library",
+      "root": "libs/logging",
+      "entryFile": "index",
+      "sourceRoot": "libs/logging/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/logging/tsconfig.lib.json"
+      }
+    },
     "proto": {
       "type": "library",
       "root": "libs/proto",

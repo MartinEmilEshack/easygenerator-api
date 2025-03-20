@@ -23,6 +23,12 @@
       ],
       "@easygen/proto/*": [
         "libs/proto/schemes/*"
+      ],
+      "@easygen/logging": [
+        "libs/logging/src"
+      ],
+      "@easygen/logging/*": [
+        "libs/logging/src/*"
       ]
     }
   }

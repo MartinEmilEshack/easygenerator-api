@@ -1,9 +1,19 @@
+import { HttpRequestLoggerInterceptor } from '@easygen/logging';
+import { ConsoleLogger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { ApiGatewayModule } from './api-gateway.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ApiGatewayModule } from './api-gateway.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ApiGatewayModule);
+  const app = await NestFactory.create(ApiGatewayModule, {
+    logger: new ConsoleLogger({
+      colors: true,
+      timestamp: true,
+      prefix: 'api-gateway',
+    }),
+  });
+
+  app.useGlobalInterceptors(new HttpRequestLoggerInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Easygenerator API')
@@ -20,4 +30,5 @@ async function bootstrap() {
 
   await app.listen(process.env.port ?? 3000);
 }
-bootstrap();
+
+void bootstrap();

@@ -80,8 +80,9 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@easygen/proto$": "<rootDir>/libs/proto/index",
       "^@easygen/proto/.*$": "<rootDir>/libs/proto/schemes/$1",
-      "^@easygen/proto$": "<rootDir>/libs/proto/index"
+      "^@easygen/logging(|/.*)$": "<rootDir>/libs/logging/src/$1"
     }
   }
 }
