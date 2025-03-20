@@ -1,5 +1,5 @@
 import { HttpRequestLoggerInterceptor } from '@easygen/logging';
-import { ConsoleLogger } from '@nestjs/common';
+import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ApiGatewayModule } from './api-gateway.module';
@@ -14,6 +14,13 @@ async function bootstrap() {
   });
 
   app.useGlobalInterceptors(new HttpRequestLoggerInterceptor());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Easygenerator API')
