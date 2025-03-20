@@ -1,4 +1,3 @@
-import { CreateUserDto } from '@easygen/proto/auth';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
@@ -7,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserApiDto implements CreateUserDto {
+export class CreateUserApiDto {
   @IsString()
   @MinLength(3)
   @ApiProperty()

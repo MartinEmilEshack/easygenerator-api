@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package auth;
+
+service UserService {
+	rpc CreateUser (CreateUserDto) returns (UserDto) {}
+	rpc FindAllUsers (Empty) returns (UsersDto) {}
+	rpc FindOneUser (FindOneUserDto) returns (UserDto) {}
+	rpc UpdateUser (UpdateUserDto) returns (UserDto) {}
+	rpc RemoveUser (RemoveUserDto) returns (UserDto) {}
+}
+
+// General messages
+message Empty {};
+
+// Request messages
+message CreateUserDto {
+	string email = 2;
+	string password = 3;
+}
+
+message FindOneUserDto {
+	string id = 1;
+}
+
+message UpdateUserDto {
+	string id = 1;
+	optional string email = 2;
+	optional string password = 3;
+}
+
+message RemoveUserDto {
+	string id = 1;
+}
+
+// Response messages
+message UserDto {
+	string id = 1;
+	string email = 2;
+}
+
+message UsersDto {
+	repeated UserDto users = 1;
+}

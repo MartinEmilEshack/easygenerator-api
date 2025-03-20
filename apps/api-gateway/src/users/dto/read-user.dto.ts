@@ -1,7 +1,6 @@
-import { User } from '@easygen/proto/auth';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ReadUserApiDto implements Pick<User, 'id' | 'username' | 'email'> {
+export class ReadUserApiDto {
   @ApiProperty()
   id: string;
 

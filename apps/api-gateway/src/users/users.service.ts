@@ -4,7 +4,7 @@ import {
   UpdateUserDto,
   USER_SERVICE_NAME,
   UserServiceClient,
-} from '@easygen/proto/auth';
+} from '@easygen/proto/users-auth';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 

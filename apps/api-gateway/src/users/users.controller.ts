@@ -20,7 +20,12 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ type: ReadUserApiDto })
   create(@Body() createUserDto: CreateUserApiDto) {
-    return this.usersService.create(createUserDto);
+    const user = this.usersService.create({
+      email: createUserDto.email,
+      password: createUserDto.password,
+    });
+
+    return user;
   }
 
   @Get()

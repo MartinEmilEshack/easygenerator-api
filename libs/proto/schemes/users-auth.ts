@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v2.6.1
 //   protoc               v6.30.1
-// source: auth.proto
+// source: users-auth.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
@@ -10,22 +10,12 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "auth";
 
+/** General messages */
 export interface Empty {
 }
 
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface Users {
-  users: User[];
-}
-
+/** Request messages */
 export interface CreateUserDto {
-  username: string;
   email: string;
   password: string;
 }
@@ -36,7 +26,6 @@ export interface FindOneUserDto {
 
 export interface UpdateUserDto {
   id: string;
-  username?: string | undefined;
   email?: string | undefined;
   password?: string | undefined;
 }
@@ -45,30 +34,40 @@ export interface RemoveUserDto {
   id: string;
 }
 
+/** Response messages */
+export interface UserDto {
+  id: string;
+  email: string;
+}
+
+export interface UsersDto {
+  users: UserDto[];
+}
+
 export const AUTH_PACKAGE_NAME = "auth";
 
 export interface UserServiceClient {
-  createUser(request: CreateUserDto): Observable<User>;
+  createUser(request: CreateUserDto): Observable<UserDto>;
 
-  findAllUsers(request: Empty): Observable<Users>;
+  findAllUsers(request: Empty): Observable<UsersDto>;
 
-  findOneUser(request: FindOneUserDto): Observable<User>;
+  findOneUser(request: FindOneUserDto): Observable<UserDto>;
 
-  updateUser(request: UpdateUserDto): Observable<User>;
+  updateUser(request: UpdateUserDto): Observable<UserDto>;
 
-  removeUser(request: RemoveUserDto): Observable<User>;
+  removeUser(request: RemoveUserDto): Observable<UserDto>;
 }
 
 export interface UserServiceController {
-  createUser(request: CreateUserDto): Promise<User> | Observable<User> | User;
+  createUser(request: CreateUserDto): Promise<UserDto> | Observable<UserDto> | UserDto;
 
-  findAllUsers(request: Empty): Promise<Users> | Observable<Users> | Users;
+  findAllUsers(request: Empty): Promise<UsersDto> | Observable<UsersDto> | UsersDto;
 
-  findOneUser(request: FindOneUserDto): Promise<User> | Observable<User> | User;
+  findOneUser(request: FindOneUserDto): Promise<UserDto> | Observable<UserDto> | UserDto;
 
-  updateUser(request: UpdateUserDto): Promise<User> | Observable<User> | User;
+  updateUser(request: UpdateUserDto): Promise<UserDto> | Observable<UserDto> | UserDto;
 
-  removeUser(request: RemoveUserDto): Promise<User> | Observable<User> | User;
+  removeUser(request: RemoveUserDto): Promise<UserDto> | Observable<UserDto> | UserDto;
 }
 
 export function UserServiceControllerMethods() {

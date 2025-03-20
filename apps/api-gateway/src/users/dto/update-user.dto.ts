@@ -1,8 +1,7 @@
-import { UpdateUserDto } from '@easygen/proto/auth';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
-export class UpdateUserApiDto implements Partial<UpdateUserDto> {
+export class UpdateUserApiDto {
   @IsString()
   @MinLength(3)
   @IsOptional()
