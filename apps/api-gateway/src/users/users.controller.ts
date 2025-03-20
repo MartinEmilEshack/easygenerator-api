@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { CreateUserApiDto } from './dto/create-user.dto';
+import { ReadUserApiDto } from './dto/read-user.dto';
 import { UpdateUserApiDto } from './dto/update-user.dto';
-import { ApiUser } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -18,7 +18,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ApiUser })
+  @ApiCreatedResponse({ type: ReadUserApiDto })
   create(@Body() createUserDto: CreateUserApiDto) {
     return this.usersService.create(createUserDto);
   }
