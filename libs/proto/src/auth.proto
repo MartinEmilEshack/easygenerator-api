@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package auth.easygen;
+
+service AuthService {
+	rpc Login (LoginDto) returns (JwtDto) {}
+	rpc Logout (LogoutDto) returns (ActionConfirmationDto) {}
+	rpc Refresh (RefreshTokenDto) returns (JwtDto) {}
+	rpc GetPayload (AccessTokenDto) returns (AccessTokenPayloadDto) {}
+	rpc ForgotPassword (ForgotPasswordDto) returns (ActionConfirmationDto) {}
+	rpc ResetPassword (ResetPasswordDto) returns (ActionConfirmationDto) {}
+}
+
+// Request messages
+message LoginDto {
+	string email = 1;
+	string password = 2;
+}
+
+message LogoutDto {
+	string userId = 1;
+}
+
+message AccessTokenDto {
+	string token = 1;
+}
+
+message RefreshTokenDto {
+	string refreshToken = 1;
+}
+
+message ForgotPasswordDto {
+	string email = 1;
+}
+
+message ResetPasswordDto {
+	string resetToken = 1;
+	string password = 2;
+}
+
+// Response messages
+message UserData {
+	string userId = 1;
+	string email = 2;
+}
+
+message JwtDto {
+	string accessToken = 1;
+	string refreshToken = 2;
+	int32 expiresIn = 3;
+	UserData user = 4;
+}
+
+message AccessTokenPayloadDto {
+	string userId = 1;
+	string email = 2;
+	string issuer = 3;
+	string audience = 4;
+	int32 issuedAt = 5;
+}
+
+message ActionConfirmationDto {
+	string message = 1;
+}

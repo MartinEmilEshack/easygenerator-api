@@ -13,4 +13,4 @@ build
 
 .env*
 
-libs/proto/schemes
+libs/proto/schemas/*

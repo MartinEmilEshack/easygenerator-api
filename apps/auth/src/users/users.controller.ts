@@ -1,3 +1,4 @@
+import { Controller } from '@nestjs/common';
 import {
   CreateUserDto,
   FindOneUserDto,
@@ -6,8 +7,7 @@ import {
   UsersDto,
   UserServiceController,
   UserServiceControllerMethods,
-} from '@easygen/proto/users-auth';
-import { Controller } from '@nestjs/common';
+} from 'libs/proto/schemas/users.auth';
 import { UsersService } from './users.service';
 
 @Controller()
@@ -15,38 +15,44 @@ import { UsersService } from './users.service';
 export class UsersController implements UserServiceController {
   constructor(private readonly usersService: UsersService) {}
 
-  createUser(createUserDto: CreateUserDto): UserDto {
-    const user = this.usersService.create(createUserDto);
+  async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
+    const user = await this.usersService.create(
+      createUserDto.email,
+      createUserDto.password,
+    );
 
-    return { id: user.id, email: user.email };
+    return { id: user._id.toString(), email: user.email };
   }
 
-  findAllUsers(): UsersDto {
-    const users = this.usersService.findAll();
+  async findAllUsers(): Promise<UsersDto> {
+    const users = await this.usersService.findAll();
 
     return {
-      users: users.map((user) => ({ id: user.id, email: user.email })),
+      users: users.map((user) => ({
+        id: user._id.toString(),
+        email: user.email,
+      })),
     };
   }
 
-  findOneUser(findOneDto: FindOneUserDto): UserDto {
-    const user = this.usersService.findOne(findOneDto.id);
+  async findOneUser(findOneDto: FindOneUserDto): Promise<UserDto> {
+    const user = await this.usersService.findOne(findOneDto.id);
 
-    return { id: user.id, email: user.email };
+    return { id: user._id.toString(), email: user.email };
   }
 
-  updateUser(updateUserDto: UpdateUserDto): UserDto {
-    const user = this.usersService.update(updateUserDto.id, {
+  async updateUser(updateUserDto: UpdateUserDto): Promise<UserDto> {
+    const user = await this.usersService.update(updateUserDto.id, {
       email: updateUserDto.email,
       password: updateUserDto.password,
     });
 
-    return { id: user.id, email: user.email };
+    return { id: user._id.toString(), email: user.email };
   }
 
-  removeUser(findOneUser: FindOneUserDto): UserDto {
-    const user = this.usersService.remove(findOneUser.id);
+  async removeUser(findOneUser: FindOneUserDto): Promise<UserDto> {
+    const user = await this.usersService.remove(findOneUser.id);
 
-    return { id: user.id, email: user.email };
+    return { id: user._id.toString(), email: user.email };
   }
 }

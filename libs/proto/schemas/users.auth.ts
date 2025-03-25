@@ -2,13 +2,13 @@
 // versions:
 //   protoc-gen-ts_proto  v2.6.1
 //   protoc               v6.30.1
-// source: users-auth.proto
+// source: users.auth.proto
 
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "auth";
+export const protobufPackage = "users.auth.easygen";
 
 /** General messages */
 export interface Empty {
@@ -44,7 +44,7 @@ export interface UsersDto {
   users: UserDto[];
 }
 
-export const AUTH_PACKAGE_NAME = "auth";
+export const USERS_AUTH_EASYGEN_PACKAGE_NAME = "users.auth.easygen";
 
 export interface UserServiceClient {
   createUser(request: CreateUserDto): Observable<UserDto>;

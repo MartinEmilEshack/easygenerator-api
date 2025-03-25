@@ -5,7 +5,7 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import { HttpRequest } from 'libs/logging/@types/http-request';
+import { Request } from 'express';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class HttpRequestLoggerInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    const request = context.switchToHttp().getRequest<HttpRequest>();
+    const request = context.switchToHttp().getRequest<Request>();
 
     this.logger.log(`${request.method} ${request.url}`);
 

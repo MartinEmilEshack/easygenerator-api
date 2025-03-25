@@ -18,17 +18,35 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@easygen/proto": [
-        "libs/proto"
+      "@easygen/exceptions": [
+        "libs/exceptions/src"
       ],
-      "@easygen/proto/*": [
-        "libs/proto/schemes/*"
+      "@easygen/exceptions/*": [
+        "libs/exceptions/src/*"
+      ],
+      "@easygen/guards": [
+        "libs/guards/src"
+      ],
+      "@easygen/guards/*": [
+        "libs/guards/src/*"
       ],
       "@easygen/logging": [
         "libs/logging/src"
       ],
       "@easygen/logging/*": [
         "libs/logging/src/*"
+      ],
+      "@easygen/proto": [
+        "libs/proto"
+      ],
+      "@easygen/proto/*": [
+        "libs/proto/schemas/*"
+      ],
+      "@easygen/sys-configs": [
+        "libs/sys-configs/src"
+      ],
+      "@easygen/sys-configs/*": [
+        "libs/sys-configs/src/*"
       ]
     }
   }

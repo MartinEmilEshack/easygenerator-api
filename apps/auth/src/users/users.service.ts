@@ -1,57 +1,87 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from './entities/user.entity';
+import {
+  AuthServicePasswordHashConfig,
+  AuthServicePasswordHashConfigType,
+} from '@easygen/sys-configs/auth-service';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
+import { Model } from 'mongoose';
+import { User } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [];
+  constructor(
+    @Inject(AuthServicePasswordHashConfig.KEY)
+    private readonly sysConfig: AuthServicePasswordHashConfigType,
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
+  ) {}
 
-  create(createUserDto: Pick<User, 'email' | 'password'>) {
-    const user: User = {
-      id: Date.now().toString(),
-      email: createUserDto.email,
-      password: createUserDto.password,
-    };
+  async create(email: string, password: string) {
+    const existingUser = await this.userModel.findOne({ email }).exec();
 
-    this.users.push(user);
+    if (existingUser) throw new ConflictException('User already exists');
+
+    const hashedPassword = await bcrypt.hash(
+      password,
+      this.sysConfig.hashRounds,
+    );
+
+    const user = await this.userModel.create({
+      email,
+      password: hashedPassword,
+    });
 
     return user;
   }
 
-  findAll() {
-    return this.users;
+  async findAll() {
+    return this.userModel.find().exec();
   }
 
-  findOne(id: string) {
-    const filteredUsers = this.users.filter((user) => user.id === id);
+  async findOne(id: string) {
+    const user = await this.userModel.findOne({ _id: id }).exec();
 
-    if (filteredUsers.length)
-      throw new NotFoundException(`User of id ${id} not found`);
-    else return filteredUsers[0];
+    if (!user) throw new NotFoundException(`User of id ${id} not found`);
+    else return user;
   }
 
-  update(id: string, newUserData: Partial<Pick<User, 'email' | 'password'>>) {
-    const userIndex = this.users.findIndex((user) => user.id === id);
+  async findByEmail(email: string) {
+    const user = await this.userModel.findOne({ email }).exec();
 
-    if (userIndex === -1)
-      throw new NotFoundException(`User of id ${id} not found`);
+    if (!user) throw new NotFoundException(`User of email ${email} not found`);
+    else return user;
+  }
+
+  async update(
+    id: string,
+    newUserData: Partial<Pick<User, 'email' | 'password'>>,
+  ) {
+    const user = await this.userModel.findOne({ _id: id }).exec();
+
+    if (!user) throw new NotFoundException(`User of id ${id} not found`);
     else {
-      this.users[userIndex].email =
-        newUserData.email ?? this.users[userIndex].email;
+      user.email = newUserData.email ?? user.email;
+      user.password = newUserData.password ?? user.password;
 
-      this.users[userIndex].password =
-        newUserData.password ?? this.users[userIndex].password;
+      await user.save();
     }
 
-    return this.users[userIndex];
+    return user;
   }
 
-  remove(id: string) {
-    const userIndex = this.users.findIndex((user) => user.id === id);
+  async remove(id: string) {
+    const user = await this.userModel.findOne({ _id: id }).exec();
 
-    if (userIndex === -1)
-      throw new NotFoundException(`User of id ${id} not found`);
+    if (!user) throw new NotFoundException(`User of id ${id} not found`);
     else {
-      return this.users.splice(userIndex)[0];
+      await this.userModel.deleteOne({ _id: id }).exec();
+      return user;
     }
   }
 }

@@ -1,33 +1,42 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { HttpAuthGuard } from '@easygen/guards/http-auth.guard';
+import { RequestWithPayload } from '@easygen/guards/types/request-with-payload';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { ForgotPasswordApiDto } from './dto/forgot-password.dto';
+import { LoginCredentialsApiDto } from './dto/login-credentials.dto';
+import { RefreshTokenApiDto } from './dto/refresh-token.dto';
+import { ResetPasswordApiDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  login(@Body() login: LoginCredentialsApiDto) {
+    return this.authService.login(login.email, login.password);
   }
 
   @Post('logout')
-  logout(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @ApiBearerAuth()
+  @UseGuards(HttpAuthGuard)
+  logout(@Request() req: RequestWithPayload) {
+    return this.authService.logout(req.jwtPayload.userId);
   }
 
   @Post('refresh')
-  refresh(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @ApiBearerAuth()
+  refresh(@Body() body: RefreshTokenApiDto) {
+    return this.authService.refresh(body.refreshToken);
   }
 
   @Post('forgot-password')
-  forgotPassword(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  forgotPassword(@Body() body: ForgotPasswordApiDto) {
+    return this.authService.forgotPassword(body.email);
   }
 
   @Post('reset-password')
-  resetPassword(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  resetPassword(@Body() body: ResetPasswordApiDto) {
+    return this.authService.resetPassword(body.resetToken, body.password);
   }
 }

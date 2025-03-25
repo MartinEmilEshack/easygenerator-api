@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { rpcHttpCatch } from '@easygen/exceptions';
+import { ProtoPackage } from '@easygen/proto';
+import {
+  Inject,
+  Injectable,
+  OnModuleInit,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
+import { AUTH_SERVICE_NAME, AuthServiceClient } from 'libs/proto/schemas/auth';
 
 @Injectable()
-export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+export class AuthService implements OnModuleInit {
+  private authServiceClient: AuthServiceClient;
+
+  constructor(
+    @Inject(ProtoPackage.AUTH) private readonly clientGrpc: ClientGrpc,
+  ) {}
+
+  onModuleInit() {
+    this.authServiceClient =
+      this.clientGrpc.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  login(email: string, password: string) {
+    return this.authServiceClient
+      .login({
+        email,
+        password,
+      })
+      .pipe(rpcHttpCatch);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  logout(userId: string) {
+    return this.authServiceClient.logout({ userId }).pipe(rpcHttpCatch);
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  refresh(refreshToken?: string) {
+    if (!refreshToken) throw new UnauthorizedException('User not logged in');
+    return this.authServiceClient.refresh({ refreshToken }).pipe(rpcHttpCatch);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  forgotPassword(userEmail: string) {
+    return this.authServiceClient
+      .forgotPassword({ email: userEmail })
+      .pipe(rpcHttpCatch);
+  }
+
+  resetPassword(resetToken: string, newPassword: string) {
+    return this.authServiceClient
+      .resetPassword({
+        resetToken,
+        password: newPassword,
+      })
+      .pipe(rpcHttpCatch);
   }
 }

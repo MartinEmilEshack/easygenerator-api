@@ -1,41 +1,48 @@
+import { rpcHttpCatch } from '@easygen/exceptions';
 import { ProtoPackage } from '@easygen/proto';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
 import {
   CreateUserDto,
   UpdateUserDto,
   USER_SERVICE_NAME,
   UserServiceClient,
-} from '@easygen/proto/users-auth';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
+} from 'libs/proto/schemas/users.auth';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private userAuthService: UserServiceClient;
+  private userAuthServiceClient: UserServiceClient;
 
-  constructor(@Inject(ProtoPackage.AUTH) private clientGrpc: ClientGrpc) {}
+  constructor(
+    @Inject(ProtoPackage.USERS_AUTH) private readonly clientGrpc: ClientGrpc,
+  ) {}
 
   onModuleInit() {
-    this.userAuthService =
+    this.userAuthServiceClient =
       this.clientGrpc.getService<UserServiceClient>(USER_SERVICE_NAME);
   }
 
   create(createUserDto: CreateUserDto) {
-    return this.userAuthService.createUser(createUserDto);
+    return this.userAuthServiceClient
+      .createUser(createUserDto)
+      .pipe(rpcHttpCatch);
   }
 
   findAll() {
-    return this.userAuthService.findAllUsers({});
+    return this.userAuthServiceClient.findAllUsers({}).pipe(rpcHttpCatch);
   }
 
   findOne(id: string) {
-    return this.userAuthService.findOneUser({ id });
+    return this.userAuthServiceClient.findOneUser({ id }).pipe(rpcHttpCatch);
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return this.userAuthService.updateUser({ ...updateUserDto, id });
+    return this.userAuthServiceClient
+      .updateUser({ ...updateUserDto, id })
+      .pipe(rpcHttpCatch);
   }
 
   remove(id: string) {
-    return this.userAuthService.removeUser({ id });
+    return this.userAuthServiceClient.removeUser({ id }).pipe(rpcHttpCatch);
   }
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package auth;
+package users.auth.easygen;
 
 service UserService {
 	rpc CreateUser (CreateUserDto) returns (UserDto) {}

@@ -29,6 +29,23 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
+    "exceptions": {
+      "type": "library",
+      "root": "libs/exceptions",
+      "sourceRoot": "libs/exceptions/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/exceptions/tsconfig.lib.json"
+      }
+    },
+    "guards": {
+      "type": "library",
+      "root": "libs/guards",
+      "entryFile": "index",
+      "sourceRoot": "libs/guards/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/guards/tsconfig.lib.json"
+      }
+    },
     "logging": {
       "type": "library",
       "root": "libs/logging",
@@ -53,6 +70,15 @@
             "watchAssets": true
           }
         ]
+      }
+    },
+    "sys-configs": {
+      "type": "library",
+      "root": "libs/sys-configs",
+      "entryFile": "index",
+      "sourceRoot": "libs/sys-configs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sys-configs/tsconfig.lib.json"
       }
     }
   }
