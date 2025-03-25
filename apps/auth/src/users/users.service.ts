@@ -66,8 +66,12 @@ export class UsersService {
 
     if (!user) throw new NotFoundException(`User of id ${id} not found`);
     else {
+      const hashedPassword = newUserData.password
+        ? await bcrypt.hash(newUserData.password, this.sysConfig.hashRounds)
+        : user.password;
+
       user.email = newUserData.email ?? user.email;
-      user.password = newUserData.password ?? user.password;
+      user.password = hashedPassword;
 
       await user.save();
     }
