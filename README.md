@@ -35,6 +35,7 @@ Ensure you have the following installed:
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Node.js v20](https://nodejs.org/)
+- [yarn](https://yarnpkg.com/)
 
 ### Environment Variables
 
