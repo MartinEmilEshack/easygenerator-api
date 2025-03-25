@@ -112,6 +112,11 @@ ENABLE_SWAGGER=true
 - Swagger API documentation is available at `http://localhost:3001/swagger-api`.
 - A Postman collection with predefined environment variables is provided for testing the API.
 
+## Todos and Requirments for production deployment
+
+- Secure the communication between the `api-gateway` and `auth` services
+- Fine tunning the rate limiter on the endpoints (only added a general one)
+
 ## Stay in touch
 
 - Author Github - [MartinEmilEshack](https://github.com/MartinEmilEshack)
