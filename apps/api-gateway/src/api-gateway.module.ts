@@ -1,6 +1,7 @@
 import { SysConfigsModule } from '@easygen/sys-configs';
 import { Module } from '@nestjs/common';
-import { seconds, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
@@ -14,5 +15,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     SysConfigsModule,
   ],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class ApiGatewayModule {}
