@@ -32,9 +32,9 @@ graph LR;
 
 Ensure you have the following installed:
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [Node.js v20](https://nodejs.org/)
+- [docker](https://www.docker.com/)
+- [docker compose](https://docs.docker.com/compose/)
+- [node v20](https://nodejs.org/)
 - [yarn](https://yarnpkg.com/)
 
 ### Environment Variables
@@ -93,7 +93,11 @@ ENABLE_SWAGGER=true
    ```sh
    docker compose --profile tools up
    ```
-2. Run the `api-gateway` service in a new terminal
+2. Install dependencies:
+   ```sh
+   yarn install
+   ```
+3. Run the `api-gateway` service in a new terminal
 
    ```bash
    # development watch mode
@@ -102,7 +106,7 @@ ENABLE_SWAGGER=true
 
    The API Gateway will be accessible at `http://localhost:3001` as configured in the environment variables
 
-3. Run the `auth` service in a new terminal
+4. Run the `auth` service in a new terminal
    ```bash
    # development watch mode
    $ yarn run start:dev auth
