@@ -9,6 +9,8 @@ EasyGenerator API is a backend service built using NestJS and TypeScript, follow
 
 ## Overview
 
+Although the task only required a module for authentication and not a microservices api I took an opportunity to present more of my skills. While adhering to the production grade requirments as mush as possible and as required in the task, I must say this is definitely an architecture overkill for the required service.
+
 The API consists of the following microservices:
 
 - **API Gateway**: Handles HTTP requests and proxies them to the appropriate microservices. It communicates with the Auth service using gRPC.
