@@ -1,9 +1,11 @@
-<p align="center">
+<div align="center">
   <img src='https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmVqNmxuYnZoajQ1amp1NDRnemlsY2hudm1haWI4b2FtcGcxa3oyMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/upyuvL9rz44uY/giphy.gif' />
-</p>
+</div>
 <h1 align="center">easygenerator-api</h1>
 
+<p align="center">
 EasyGenerator API is a backend service built using NestJS and TypeScript, following a microservices architecture within a NestJS monorepo. The project leverages Docker for containerized deployment and Docker Compose for service orchestration.
+</p>
 
 ## Overview
 
